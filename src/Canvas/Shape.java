@@ -5,7 +5,7 @@ import java.awt.*;
 public abstract class Shape {
     protected Point center;
     protected Color color;
-    protected String type;
+    public String type;
 
     public Shape(Point center, Color color) {
         this.center = center;

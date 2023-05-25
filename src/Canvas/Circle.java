@@ -7,7 +7,7 @@ import java.awt.Graphics;
  * @author uakhan
  * This class creates a circle
  */
-class Circle extends Shape
+public class Circle extends Shape
 {
     private int	size;
 
@@ -17,7 +17,7 @@ class Circle extends Shape
      * @param center defines the location
      * @param C	defines the color
      */
-    Circle(int iSize, Point center, Color C)
+    public Circle(int iSize, Point center, Color C)
     {
         super(center, C);
         setSize(iSize);

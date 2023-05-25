@@ -1,16 +1,16 @@
 package Windows;
 
-import Default.Rectangle;
+import Default.RectangleTemplate;
 
 import java.awt.*;
 
 public class PopUpWindow extends Window{
     private String text;
-    Rectangle rect;
+    RectangleTemplate rect;
     public PopUpWindow(int x, int y, int width, int height, Color rectColor, Color lineColor, String text) {
         super(x, y, width, height, rectColor, lineColor, 2);
         this.text = text;
-        this.rect = new Rectangle(x, y, width, height / 20, Color.LIGHT_GRAY, Color.LIGHT_GRAY, 0);
+        this.rect = new RectangleTemplate(x, y, width, height / 20, Color.LIGHT_GRAY, Color.LIGHT_GRAY, 0);
     }
 
     @Override

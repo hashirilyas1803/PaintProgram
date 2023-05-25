@@ -2,7 +2,7 @@ package Default;
 
 import java.awt.*;
 
-public class Rectangle {
+public class RectangleTemplate {
 
     // Variables
     protected Point centre;
@@ -15,7 +15,7 @@ public class Rectangle {
 
     // Methods
 
-    public Rectangle(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke) {
+    public RectangleTemplate(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke) {
         this.centre = new Point(x, y);
         this.width = width;
         this.height = height;

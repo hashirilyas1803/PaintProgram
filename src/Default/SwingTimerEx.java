@@ -16,23 +16,20 @@ public class SwingTimerEx extends JFrame {
     }
 
     private void initUI() {
-        add(new Board());
+        Board board = new Board();
+        add(board);
 
-//        DrawingPanel panel = new DrawingPanel();
-//        addComponentListener(new ComponentAdapter() {
-//            @Override
-//            public void componentHidden(ComponentEvent e) {
-//                try {
-//                    panel.closeUp();
-//                } catch (FileNotFoundException ex) {
-//                    System.out.println("No File Found");
-//                }
-//                ((JFrame)(e.getComponent())).dispose();
-//            }
-//        });
-//        panel.setPreferredSize(new Dimension(400, 00));
-//        add(board);
-//        board.add(panel, BoxLayout.X_AXIS);
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                try {
+                    board.closeUp();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                ((JFrame)(e.getComponent())).dispose();
+            }
+        });
 
         setResizable(true);
         pack();

@@ -1,6 +1,6 @@
 package Buttons;
 
-import Default.Rectangle;
+import Default.RectangleTemplate;
 import Interfaces.Interactibility;
 
 import java.awt.*;
@@ -120,7 +120,7 @@ public class Button implements Interactibility
 	}
 
 	public void paint(Graphics g) {
-		Rectangle rect = new Rectangle(x, y , width, height, rectColor, lineColor, 2);
+		RectangleTemplate rect = new RectangleTemplate(x, y , width, height, rectColor, lineColor, 2);
 		rect.paint(g);
 	}
 }

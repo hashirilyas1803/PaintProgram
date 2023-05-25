@@ -6,7 +6,7 @@ import Buttons.MenuButton;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class DropDownMenu extends Rectangle{
+public class DropDownMenu extends RectangleTemplate {
     // Attributes
     private ArrayList<Button> buttons = new ArrayList<>();
 

@@ -1,6 +1,6 @@
 package Windows;
 
-import Default.Rectangle;
+import Default.RectangleTemplate;
 import Interfaces.Interactibility;
 
 import java.awt.*;
@@ -9,14 +9,14 @@ public class GradientWindow extends PopUpWindow implements Interactibility {
 
     int xtemp;
     int ytemp;
-    private Rectangle[][] rectangles;
+    private RectangleTemplate[][] rectangles;
     public GradientWindow(int x, int y, int width, int height, Color rectColor, Color lineColor, String text) {
         super(x, y, width, height, rectColor, lineColor, text);
         xtemp = x + width / 10;
         ytemp = y + height / 10;
 
         // Initialize the rectangles array
-        rectangles = new Rectangle[255][301];
+        rectangles = new RectangleTemplate[255][301];
         int r, g, b;
         int r1 = 255, g1 = 0, b1 = 0;
 
@@ -46,7 +46,7 @@ public class GradientWindow extends PopUpWindow implements Interactibility {
 
             // Assign color values horizontally
             for (int i = 0; i < rectangles.length; i++) {
-                rectangles[i][j] = new Rectangle(xtemp + j, ytemp + i, 1, 1, new Color(r,g,b), null, 0);
+                rectangles[i][j] = new RectangleTemplate(xtemp + j, ytemp + i, 1, 1, new Color(r,g,b), null, 0);
                 if(r != 255)
                     r += (255 - r) / (rectangles.length - i);
                 if(g != 255)

@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ToolBar extends Rectangle implements Interactibility, DrawButtons {
+public class ToolBar extends RectangleTemplate implements Interactibility, DrawButtons {
     protected Board b;
     protected ArrayList<Button> buttons;
     protected ColorButton selected;
@@ -84,9 +84,12 @@ public class ToolBar extends Rectangle implements Interactibility, DrawButtons {
 
     @Override
     public boolean IsClicked(int x, int y) {
-        for (Button button  : buttons) {
-            if (button.IsClicked(x, y))
+        String[] shapes = {"Right-Angled Triangle", "Equilateral Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram"};
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons.get(i).IsClicked(x, y)) {
+                b.shape = shapes[i];
                 return true;
+            }
         }
         return false;
     }

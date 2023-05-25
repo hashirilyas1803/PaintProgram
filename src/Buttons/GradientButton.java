@@ -1,16 +1,16 @@
 package Buttons;
 
-import Default.Rectangle;
+import Default.RectangleTemplate;
 
 import java.awt.*;
 
 public class GradientButton extends ToggleButton{
-    private Rectangle colorRect;
+    private RectangleTemplate colorRect;
     private final String text;
 
     public GradientButton(int x, int y, int width, int height, String text) {
         super(x, y, width, height, text);
-        this.colorRect = new Rectangle(x + 5, y + 5, width - 10, width - 10, Color.BLACK, Color.LIGHT_GRAY, 2);
+        this.colorRect = new RectangleTemplate(x + 5, y + 5, width - 10, width - 10, Color.BLACK, Color.LIGHT_GRAY, 2);
         this.text = text;
     }
 

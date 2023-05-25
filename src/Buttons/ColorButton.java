@@ -1,16 +1,16 @@
 package Buttons;
 
-import Default.Rectangle;
+import Default.RectangleTemplate;
 import Interfaces.Interactibility;
 
 import java.awt.*;
 
 public class ColorButton extends ToggleButton implements Interactibility {
-    private Rectangle colorRect;
+    private RectangleTemplate colorRect;
     private final String text;
     public ColorButton(int x, int y, int width, int height, String text) {
         super(x, y, width, height);
-        this.colorRect = new Rectangle(x + 5, y + 5, width - 10, width - 10, Color.BLACK, Color.LIGHT_GRAY, 2);
+        this.colorRect = new RectangleTemplate(x + 5, y + 5, width - 10, width - 10, Color.BLACK, Color.LIGHT_GRAY, 2);
         this.text = text;
     }
 

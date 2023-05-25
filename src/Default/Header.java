@@ -5,12 +5,11 @@ import Buttons.Button;
 import Interfaces.DrawButtons;
 import Interfaces.Interactibility;
 import Windows.PopUpWindow;
-import Windows.Window;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Header extends Rectangle implements Interactibility, DrawButtons {
+public class Header extends RectangleTemplate implements Interactibility, DrawButtons {
     // Attributes
     Board b;
     MenuButton file;

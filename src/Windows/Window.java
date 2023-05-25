@@ -1,12 +1,12 @@
 package Windows;
 
-import Default.Rectangle;
+import Default.RectangleTemplate;
 import Default.ToolBar;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Window extends Rectangle {
+public class Window extends RectangleTemplate {
     private ArrayList<ToolBar> toolBars;
     public Window(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke) {
         super(x, y, width, height, rectColor, lineColor, stroke);
@@ -25,6 +25,10 @@ public class Window extends Rectangle {
                 toolBar.paint(g);
             }
         }
+    }
+
+    public boolean inBounds(int x, int y) {
+        return (x > centre.x && x < centre.x + width && y > centre.y && y < centre.y + height);
     }
 
 
