@@ -19,6 +19,10 @@ public class ColorButton extends ToggleButton implements Interactibility {
         this.colorRect.setRectColor(colorRect);
     }
 
+    public Color getColorRect() {
+        return this.colorRect.getRectColor();
+    }
+
     @Override
     public void click(int x, int y) {
         super.click(x, y);

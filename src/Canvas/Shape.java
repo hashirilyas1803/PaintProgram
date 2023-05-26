@@ -5,11 +5,17 @@ import java.awt.*;
 public abstract class Shape {
     protected Point center;
     protected Color color;
+    protected Color strokeColor;
     public String type;
+    public int stroke;
 
     public Shape(Point center, Color color) {
         this.center = center;
         this.color = color;
+    }
+
+    public Color getStrokeColor() {
+        return strokeColor;
     }
 
     public Point getCenter() {

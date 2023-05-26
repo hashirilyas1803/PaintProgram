@@ -5,11 +5,13 @@ import java.awt.*;
 public class Triangle extends Shape{
     Point corner1;
     Point corner2;
-    public Triangle(Point center,Point corner1, Point corner2, Color color) {
+    public Triangle(Point center,Point corner1, Point corner2, Color color, Color strokeColor, int stroke) {
         super(center, color);
         setCorner1(corner1);
         setCorner2(corner2);
         type = "Triangle";
+        this.strokeColor = strokeColor;
+        this.stroke = stroke;
     }
 
     @Override
@@ -48,11 +50,19 @@ public class Triangle extends Shape{
         this.corner2 = corner2;
     }
 
+
     @Override
     public void draw(Graphics g) {
+        // Draw the shape outline
         int[] x = {center.x, corner1.x, corner2.x};
         int[] y = {center.y, corner1.y, corner2.y};
-        g.setColor(color);
+        g.setColor(strokeColor);
         g.fillPolygon(x, y, 3);
+
+        // Draw the shape
+        int[] x1 = {center.x, corner1.x - stroke, corner2.x + stroke};
+        int[] y1 = {center.y + stroke, corner1.y - stroke / 2, corner2.y - stroke / 2};
+        g.setColor(color);
+        g.fillPolygon(x1, y1, 3);
     }
 }

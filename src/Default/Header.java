@@ -89,9 +89,12 @@ public class Header extends RectangleTemplate implements Interactibility, DrawBu
             if (button.IsPressed() && editop) {
                 switch (i) {
                     case 0:
+                        b.undo();
                         System.out.println("Undo");
                         break;
                     case 1:
+                        if (!b.redo.isEmpty())
+                            b.obj.push(b.redo.dequeue());
                         System.out.println("Redo");
                         break;
                 }
@@ -109,6 +112,7 @@ public class Header extends RectangleTemplate implements Interactibility, DrawBu
         // Add clicking functionality to all buttons in the header
         file.click(x, y);
         edit.click(x, y);
+
         for (Button button : fileMenu.getButtons()) {
             button.click(x, y);
         }

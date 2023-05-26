@@ -42,6 +42,20 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
     }
 
+    public Color getStrokeColor() {
+        if (buttons.get(0) instanceof ColorButton) {
+            return ((ColorButton) buttons.get(0)).getColorRect();
+        }
+        return null;
+    }
+
+    public Color getFillColor() {
+        if (buttons.get(1) instanceof ColorButton) {
+            return ((ColorButton) buttons.get(1)).getColorRect();
+        }
+        return null;
+    }
+
 
     protected void drawButton(Button button, Graphics g, Board b) {
         g.drawImage(button.GetImage(), button.x, button.y, b);
@@ -84,14 +98,24 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
     @Override
     public boolean IsClicked(int x, int y) {
-        String[] shapes = {"Right-Angled Triangle", "Equilateral Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram"};
-        for (int i = 0; i < buttons.size(); i++) {
-            if (buttons.get(i).IsClicked(x, y)) {
-                b.shape = shapes[i];
-                return true;
+        if (buttons.get(0) instanceof ListButton) {
+            String[] shapes = {"Right-Angled-Triangle", "Equilateral-Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram"};
+            for (int i = 0; i < buttons.size(); i++) {
+                if (buttons.get(i).IsClicked(x, y)) {
+                    b.shape = shapes[i];
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        else {
+            for (Button button : buttons) {
+                if (button.IsClicked(x, y)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public void addShapes(int x, int y, int size) {

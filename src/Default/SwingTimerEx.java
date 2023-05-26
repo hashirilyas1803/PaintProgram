@@ -1,12 +1,10 @@
 package Default;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.FileNotFoundException;
-import javax.swing.*;
-
-import Canvas.DrawingPanel;
 
 public class SwingTimerEx extends JFrame {
 
@@ -19,17 +17,17 @@ public class SwingTimerEx extends JFrame {
         Board board = new Board();
         add(board);
 
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentHidden(ComponentEvent e) {
-                try {
-                    board.closeUp();
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                ((JFrame)(e.getComponent())).dispose();
-            }
-        });
+//        this.addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentHidden(ComponentEvent e) {
+//                try {
+//                    board.closeUp();
+//                } catch (FileNotFoundException ex) {
+//                    throw new RuntimeException(ex);
+//                }
+//                ((JFrame)(e.getComponent())).dispose();
+//            }
+//        });
 
         setResizable(true);
         pack();

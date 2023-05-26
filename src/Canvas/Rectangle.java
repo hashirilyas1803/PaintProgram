@@ -6,10 +6,14 @@ public class Rectangle extends Shape{
     private int height;
     private int width;
 
-    public Rectangle(Point center, Color color, int width, int height) {
+
+    public Rectangle(Point center, Color color, int width, int height, Color lineColor, int stroke) {
         super(center, color);
         setWidth(width);
         setHeight(height);
+        this.color = color;
+        this.strokeColor = lineColor;
+        this.stroke = stroke;
         type = "Rectangle";
     }
 
@@ -51,7 +55,10 @@ public class Rectangle extends Shape{
 
     @Override
     public void draw(Graphics g) {
+        // Draw the shape
+        g.setColor(strokeColor);
+        g.fillRect(center.x, center.y, width, height);
         g.setColor(getColor());
-        g.fillRect(getCenter().x, getCenter().y, getWidth(), getHeight());
+        g.fillRect(center.x + stroke, center.y + stroke, width - (2 * stroke), height - (2 * stroke));
     }
 }

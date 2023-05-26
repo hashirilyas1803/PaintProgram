@@ -10,8 +10,8 @@ public class RectangleTemplate {
     protected int height;
     Color rectColor;
     Color lineColor;
-    Color textColor;
     int stroke;
+    Color textColor;
 
     // Methods
 

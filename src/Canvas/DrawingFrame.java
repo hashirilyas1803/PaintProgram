@@ -11,20 +11,20 @@ class DrawingFrame extends JFrame implements ActionListener
 	    JFrame frame = new JFrame( "Drawing Program" );
 	    frame.setDefaultCloseOperation(1);
 
-	    DrawingPanel panel = new DrawingPanel();
+//	    DrawingPanel panel = new DrawingPanel();
 
-	    frame.add( panel );
-		frame.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentHidden(ComponentEvent e) {
-				try {
-					panel.closeUp();
-				} catch (FileNotFoundException ex) {
-					throw new RuntimeException(ex);
-				}
-				((JFrame)(e.getComponent())).dispose();
-			}
-		});
+//	    frame.add( panel );
+//		frame.addComponentListener(new ComponentAdapter() {
+//			@Override
+//			public void componentHidden(ComponentEvent e) {
+//				try {
+//					panel.closeUp();
+//				} catch (FileNotFoundException ex) {
+//					throw new RuntimeException(ex);
+//				}
+//				((JFrame)(e.getComponent())).dispose();
+//			}
+//		});
 
 	    frame.pack();
 	    frame.setVisible( true );

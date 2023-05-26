@@ -17,11 +17,13 @@ public class Circle extends Shape
      * @param center defines the location
      * @param C	defines the color
      */
-    public Circle(int iSize, Point center, Color C)
+    public Circle(int iSize, Point center, Color C, Color strokeColor, int stroke)
     {
         super(center, C);
         setSize(iSize);
         type = "Circle";
+        this.strokeColor = strokeColor;
+        this.stroke = stroke;
     }
 
     public void setSize(int iSize) {
@@ -63,7 +65,9 @@ public class Circle extends Shape
 
     public void draw(Graphics g)
     {
+        g.setColor(getStrokeColor());
+        g.fillOval(center.x - size / 2 ,center.y - size / 2, size, size);
         g.setColor(getColor());
-        g.fillOval(getCenter().x - getSize()/2 ,getCenter().y - getSize()/2,getSize(),getSize());
+        g.fillOval(center.x - size / 2 + stroke,center.y - size / 2 + stroke, size - (2 * stroke),size - (2 * stroke));
     }
 }
