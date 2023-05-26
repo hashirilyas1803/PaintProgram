@@ -62,6 +62,7 @@ public class Board extends JPanel
     private Random random = new Random();
     public Queue<Shape> redo = new Queue<>();
     public LinkedList<Stack<Shape>> layer = new LinkedList<>();
+    TextBox textBox = new TextBox(200, 500, 100);
 
     @Override
     public void componentResized(ComponentEvent e) {
@@ -103,12 +104,20 @@ public class Board extends JPanel
         @Override
         public void keyPressed(KeyEvent e) {
 
+            // Bit buggy but the textbox works overall. Saad add a Save Button(ActiveButton) and use that to submit the text
         	keyPressed = true;
             key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_SPACE) {
-                undo();
+            if (key == KeyEvent.VK_BACK_SPACE) {
+                textBox.delete();
             }
+            else {
+                if (key == KeyEvent.VK_SPACE) {
+                    undo();
+                }
+                textBox.input(String.valueOf(e.getKeyChar()));
+            }
+
 
         }
     }
@@ -205,6 +214,7 @@ public class Board extends JPanel
         menuBar.paint(g);
         header.paint(g);
         layers.paint(g);
+        textBox.paint(g);
 
 
         if(keyPressed)
