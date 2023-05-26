@@ -51,7 +51,7 @@ public class Board extends JPanel
 
     // Drawing variables
     private int x1, y1, x2, y2, x3, y3;
-    private byte occur;
+    private int occur;
     public int stroke = 4;
     private Circle circle;
     private Rectangle rectangle;
