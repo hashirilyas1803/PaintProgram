@@ -2,22 +2,20 @@ package Default;
 
 import Buttons.ColorButton;
 import Buttons.GradientButton;
+import Canvas.Point;
+import Canvas.Queue;
+import Canvas.Rectangle;
+import Canvas.Shape;
+import Canvas.*;
 import Interfaces.DrawButtons;
 import Windows.Window;
-import Canvas.*;
-import Canvas.Shape;
-import Canvas.Point;
-import Canvas.Rectangle;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Board extends JPanel
         implements ActionListener , MouseInputListener, DrawButtons, ComponentListener {
@@ -62,8 +60,8 @@ public class Board extends JPanel
     private Hexagon hexagon;
     public String shape = "";
     private Random random = new Random();
-    public Stack<Shape> obj = new Stack<>();
     public Queue<Shape> redo = new Queue<>();
+    public LinkedList<Stack<Shape>> layer = new LinkedList<>();
 
     @Override
     public void componentResized(ComponentEvent e) {
@@ -109,7 +107,7 @@ public class Board extends JPanel
             key = e.getKeyCode();
 
             if (key == KeyEvent.VK_SPACE) {
-
+                undo();
             }
 
         }
@@ -190,15 +188,17 @@ public class Board extends JPanel
 //                throw new RuntimeException(e);
 //            }
 //        }
-        Stack<Shape> temp = new Stack<>();
-        while(!obj.isEmpty()) {
-            Shape test = obj.pop();
-            temp.push(test);
-        }
-        while(!temp.isEmpty()) {
-            Shape temp2 = temp.pop();
-            temp2.draw(g);
-            obj.push(temp2);
+        for (int i = layer.size() - 1; i >= 0; i--) {
+            Stack<Shape> temp = new Stack<>();
+            while(!layer.get(i).isEmpty()) {
+                Shape test = layer.get(i).pop();
+                temp.push(test);
+            }
+            while(!temp.isEmpty()) {
+                Shape temp2 = temp.pop();
+                temp2.draw(g);
+                layer.get(i).push(temp2);
+            }
         }
         g.setColor(Color.BLACK);
         g.drawString(shape, panel.centre.x + panel.width - 100, panel.centre.y + panel.height - 50);
@@ -329,7 +329,7 @@ public class Board extends JPanel
 
                 // Erase the intermediate drawing of the shapes
                 if (occur != 0)
-                    obj.pop();
+                    layer.get(0).pop();
                 // Purge the redo queue whenever the user draws a new shape
                 purge();
                 x2 = e.getX();
@@ -353,14 +353,14 @@ public class Board extends JPanel
                     rectangle.setCenter(start);
                     rectangle.setWidth(width);
                     rectangle.setHeight(height);
-                    obj.push(rectangle);
+                    layer.get(0).push(rectangle);
                 }
                 else if (shape.equals("Circle")) {
                     Point center = new Point(x1, y1);
                     if (occur == 0)
                         circle = new Circle(2 * radius, center, color.getFillColor(), color.getStrokeColor(), stroke);
                     circle.setSize(2 * radius);
-                    obj.push(circle);
+                    layer.get(0).push(circle);
                 }
                 else if (shape.equals("Right-Angled-Triangle")) {
                     Point center = new Point(x1, y1);
@@ -377,7 +377,7 @@ public class Board extends JPanel
                         corner2.y = y1;
                     }
                     triangle = new Triangle(center, corner1, corner2, color.getFillColor(), color.getStrokeColor(), stroke);
-                    obj.push(triangle);
+                    layer.get(0).push(triangle);
                 }
                 else if (shape.equals("Equilateral-Triangle")) {
                     int distance = (int) ((Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)))) / 2);
@@ -396,15 +396,15 @@ public class Board extends JPanel
                         corner2.y = y1;
                     }
                     triangle = new Triangle(center, corner1, corner2, color.getFillColor(), color.getStrokeColor(), stroke);
-                    obj.push(triangle);
+                    layer.get(0).push(triangle);
                 }
                 else if (shape.equals("Pentagram")) {
                     pentagram = new Pentagram(radius, new Point(x1, y1), color.getFillColor(), color.getStrokeColor(), stroke);
-                    obj.push(pentagram);
+                    layer.get(0).push(pentagram);
                 }
                 else if (shape.equals("Hexagon")) {
                     hexagon = new Hexagon(radius, new Point(x1, y1), color.getFillColor(), color.getStrokeColor(), stroke);
-                    obj.push(hexagon);
+                    layer.get(0).push(hexagon);
                 }
                 occur++;
             }
@@ -437,13 +437,11 @@ public class Board extends JPanel
 
     // Remove a shape from the stack
     public void undo(){
-        if (obj.size() > 0){
-            redo.enqueue(obj.pop());
-            this.repaint();
-        }
+        if (layer.get(0).size() > 0)
+            redo.enqueue(layer.get(0).pop());
     }
 
-//    // Read the obj into a file before the program exits
+//    // Read the layers.selectedStack into a file before the program exits
 //    public void closeUp() throws FileNotFoundException {
 //        // Open file and declare resources
 //        File file = new File("log.txt");

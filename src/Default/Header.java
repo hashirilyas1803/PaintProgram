@@ -94,7 +94,7 @@ public class Header extends RectangleTemplate implements Interactibility, DrawBu
                         break;
                     case 1:
                         if (!b.redo.isEmpty())
-                            b.obj.push(b.redo.dequeue());
+                            b.layer.get(0).push(b.redo.dequeue());
                         System.out.println("Redo");
                         break;
                 }

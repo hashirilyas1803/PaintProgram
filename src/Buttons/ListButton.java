@@ -27,6 +27,18 @@ public class ListButton extends Button{
     }
 
     @Override
+    public void click(int x, int y) {
+        if (IsClicked(x, y)) {
+            if (image_depressed == null || image_pressed == null)
+                showSelection();
+        }
+    }
+
+    public void showSelection() {
+        setLineColor(Color.BLACK);
+    }
+
+    @Override
     public void release(int x, int y) {
         super.release(x, y);
     }

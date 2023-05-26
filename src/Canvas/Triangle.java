@@ -60,7 +60,7 @@ public class Triangle extends Shape{
         g.fillPolygon(x, y, 3);
 
         // Draw the shape
-        int[] x1 = {center.x, corner1.x - stroke, corner2.x + stroke};
+        int[] x1 = {center.x, corner1.x - stroke / 2, corner2.x + stroke / 2};
         int[] y1 = {center.y + stroke, corner1.y - stroke / 2, corner2.y - stroke / 2};
         g.setColor(color);
         g.fillPolygon(x1, y1, 3);

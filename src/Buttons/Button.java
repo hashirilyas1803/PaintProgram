@@ -114,8 +114,6 @@ public class Button implements Interactibility
 		if (IsClicked(x, y)) {
 			current_image = image_pressed;
 			pressed = true;
-			if (image_depressed == null || image_pressed == null)
-				setLineColor(Color.BLACK);
 		}
 	}
 
