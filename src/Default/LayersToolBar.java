@@ -2,15 +2,12 @@ package Default;
 
 import Buttons.ActiveButton;
 import Buttons.ListButton;
-import Interfaces.DrawButtons;
-import Canvas.Stack;
 import Canvas.Shape;
+import Canvas.Stack;
+import Interfaces.DrawButtons;
 
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.List;
-
-import static java.util.Collections.swap;
 
 public class LayersToolBar extends ToolBar implements DrawButtons {
     ActiveButton[] activeButtons;
@@ -32,8 +29,10 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
         activeButtons[3] = new ActiveButton(bx + (bw * 3), by, bw, 32, "Down");
 
         // Add one layer by default
-        buttons.add(new ListButton(super.getCentre().x + stroke, super.getCentre().y + height - 32 - stroke, super.width - (stroke * 2), 32, "Layer" + (buttons.size() + 1)));
-        b.layer.add(new Stack<Shape>());
+        if (buttons.size() == 0)
+            buttons.add(new ListButton(super.getCentre().x + stroke, super.getCentre().y + height - 32 - stroke, super.width - (stroke * 2), 32, "Layer" + (buttons.size() + 1)));
+        if (b.layer.size() == 0)
+            b.layer.add(new Stack<>());
 
         selected = buttons.get(0);
         selectedStack = b.layer.get(0);
@@ -90,6 +89,8 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
     public void addlayer() {
         buttons.add(new ListButton(super.getCentre().x + stroke, super.getCentre().y + height - (32 * (buttons.size() + 1)) - stroke, super.width - (stroke * 2), 32, "Layer" + (buttons.size() + 1)));
         b.layer.add(new Stack<Shape>());
+        System.out.println(b.layer.size());
+        selected = buttons.get(buttons.size() - 1);
         selectedStack = b.layer.get(b.layer.size() - 1);
     }
 
@@ -105,8 +106,8 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
                 selectedStack = b.layer.get(i - 1);
             }
             else {
-                selected = buttons.get(i + 1);
-                selectedStack = b.layer.get(i + 1);
+                selected = buttons.get(i);
+                selectedStack = b.layer.get(i);
             }
         }
     }

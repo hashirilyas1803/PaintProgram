@@ -51,14 +51,15 @@ public class Board extends JPanel
 
     // Drawing variables
     private int x1, y1, x2, y2, x3, y3;
-    private int occur;
-    public int stroke = 4;
+    private long occur;
+    public int stroke = 2;
     private Circle circle;
     private Rectangle rectangle;
     private Triangle triangle;
     private Pentagram pentagram;
     private Hexagon hexagon;
-    public String shape = "";
+    private FreeDrawing drawing;
+    public String shape = "Free-Drawing";
     private Random random = new Random();
     public Queue<Shape> redo = new Queue<>();
     public LinkedList<Stack<Shape>> layer = new LinkedList<>();
@@ -111,10 +112,10 @@ public class Board extends JPanel
             if (key == KeyEvent.VK_BACK_SPACE) {
                 textBox.delete();
             }
+            else if (key == KeyEvent.VK_SPACE) {
+                undo();
+            }
             else {
-                if (key == KeyEvent.VK_SPACE) {
-                    undo();
-                }
                 textBox.input(String.valueOf(e.getKeyChar()));
             }
 
@@ -197,7 +198,7 @@ public class Board extends JPanel
 //                throw new RuntimeException(e);
 //            }
 //        }
-        for (int i = layer.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < layer.size(); i++) {
             Stack<Shape> temp = new Stack<>();
             while(!layer.get(i).isEmpty()) {
                 Shape test = layer.get(i).pop();
@@ -308,6 +309,9 @@ public class Board extends JPanel
         if (panel.inBounds(x, y)) {
             if(SwingUtilities.isLeftMouseButton(e)) {
                 occur = 0;
+                if (shape.equals("Free-Drawing")) {
+                    drawing.stop();
+                }
             }
         }
         else {
@@ -339,12 +343,12 @@ public class Board extends JPanel
                 // Repeated draw and erase the shapes while dragging for the user to judge how big they should be
 
                 // Erase the intermediate drawing of the shapes
-                if (occur != 0)
-                    layer.get(0).pop();
+                if (occur != 0 && !shape.equals("Free-Drawing"))
+                    layer.get(layer.size() - 1).pop();
                 // Purge the redo queue whenever the user draws a new shape
                 purge();
-                x2 = e.getX();
-                y2 = e.getY();
+                x2 = x;
+                y2 = y;
                 Point start = new Point(x1, y1);
                 int width, height;
                 width = x2 - x1;
@@ -359,19 +363,13 @@ public class Board extends JPanel
                 }
                 int radius = (int)Math.sqrt((width * width) + (height * height));
                 if (shape.equals("Rectangle")) {
-                    if (occur == 0)
-                        rectangle = new Rectangle(start, color.getFillColor(), width, height, color.getStrokeColor(), stroke);
-                    rectangle.setCenter(start);
-                    rectangle.setWidth(width);
-                    rectangle.setHeight(height);
-                    layer.get(0).push(rectangle);
+                    rectangle = new Rectangle(start, color.getFillColor(), width, height, color.getStrokeColor(), stroke);
+                    layer.get(layer.size() - 1).push(rectangle);
                 }
                 else if (shape.equals("Circle")) {
                     Point center = new Point(x1, y1);
-                    if (occur == 0)
-                        circle = new Circle(2 * radius, center, color.getFillColor(), color.getStrokeColor(), stroke);
-                    circle.setSize(2 * radius);
-                    layer.get(0).push(circle);
+                    circle = new Circle(2 * radius, center, color.getFillColor(), color.getStrokeColor(), stroke);
+                    layer.get(layer.size() - 1).push(circle);
                 }
                 else if (shape.equals("Right-Angled-Triangle")) {
                     Point center = new Point(x1, y1);
@@ -388,7 +386,7 @@ public class Board extends JPanel
                         corner2.y = y1;
                     }
                     triangle = new Triangle(center, corner1, corner2, color.getFillColor(), color.getStrokeColor(), stroke);
-                    layer.get(0).push(triangle);
+                    layer.get(layer.size() - 1).push(triangle);
                 }
                 else if (shape.equals("Equilateral-Triangle")) {
                     int distance = (int) ((Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)))) / 2);
@@ -407,15 +405,22 @@ public class Board extends JPanel
                         corner2.y = y1;
                     }
                     triangle = new Triangle(center, corner1, corner2, color.getFillColor(), color.getStrokeColor(), stroke);
-                    layer.get(0).push(triangle);
+                    layer.get(layer.size() - 1).push(triangle);
                 }
                 else if (shape.equals("Pentagram")) {
                     pentagram = new Pentagram(radius, new Point(x1, y1), color.getFillColor(), color.getStrokeColor(), stroke);
-                    layer.get(0).push(pentagram);
+                    layer.get(layer.size() - 1).push(pentagram);
                 }
                 else if (shape.equals("Hexagon")) {
                     hexagon = new Hexagon(radius, new Point(x1, y1), color.getFillColor(), color.getStrokeColor(), stroke);
-                    layer.get(0).push(hexagon);
+                    layer.get(layer.size() - 1).push(hexagon);
+                }
+                else if (shape.equals("Free-Drawing")) {
+                    if (occur == 0) {
+                        drawing = new FreeDrawing(new Point(x1, y1), color.getStrokeColor(), stroke);
+                        layer.get(layer.size() - 1).push(drawing);
+                    }
+                    drawing.freeDrawing(x, y);
                 }
                 occur++;
             }
@@ -448,8 +453,8 @@ public class Board extends JPanel
 
     // Remove a shape from the stack
     public void undo(){
-        if (layer.get(0).size() > 0)
-            redo.enqueue(layer.get(0).pop());
+        if (layer.get(layer.size() - 1).size() > 0)
+            redo.enqueue(layer.get(layer.size() - 1).pop());
     }
 
 //    // Read the layers.selectedStack into a file before the program exits

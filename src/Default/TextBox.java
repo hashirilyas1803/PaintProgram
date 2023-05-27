@@ -19,7 +19,7 @@ public class TextBox extends Window implements Interactibility {
             this.text += text;
     }
     public void delete() {
-        if (selected)
+        if (selected && text.length() > 0)
             this.text = text.substring(0, text.length() - 1);
     }
 
