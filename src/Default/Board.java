@@ -270,6 +270,7 @@ public class Board extends JPanel
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
         int x = e.getX(), y = e.getY();
+        textBox.click(x, y);
         if (panel.inBounds(x, y)) {
             if (SwingUtilities.isLeftMouseButton(e)) {
 
