@@ -5,6 +5,7 @@ import Buttons.Button;
 import Interfaces.DrawButtons;
 import Interfaces.Interactibility;
 import Windows.GradientWindow;
+import Windows.GradientWindow2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +16,16 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
     protected ArrayList<Button> buttons;
     protected ColorButton selected;
     protected GradientWindow gradient;
+    private Button [] array3;
+    private GradientButton gradientButton;
+    public static Button[] custom = new Button[5];
+    private Image gradientPic= new ImageIcon("src/Resources/gradient.png").getImage();
     public ToolBar(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke, Board b) {
         super(x, y, width, height, rectColor, lineColor, stroke);
         this.b = b;
         buttons = new ArrayList<>();
         int h = b.getheight();
         int w = b.getwidth();
-        gradient = new GradientWindow(w / 4, h / 4, w / 2, h / 2, Color.BLACK, Color.LIGHT_GRAY, "Gradient");
     }
 
     @Override
@@ -29,17 +33,27 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
         super.paint(g);
         if (!buttons.isEmpty()) {
             for (Button button : buttons) {
-                if (button instanceof ColorButton || button instanceof PaletteButton || button instanceof GradientButton)
+                if (button instanceof ColorButton || button instanceof PaletteButton)
                     button.paint(g);
                 else
                     drawButton(button, g, b);
             }
         }
-        for (Button button : buttons) {
-            if (button instanceof GradientButton && button.IsPressed())
-                gradient.paint(g);
-        }
+        if (gradient != null)
+            gradient.paint(g);
 
+    }
+
+    public static void addColor (Color color, int buttonNumber)
+    {
+        switch (buttonNumber) {
+            case 1 -> custom[0].setRectColor(color);
+            case 2 -> custom[1].setRectColor(color);
+            case 3 -> custom[2].setRectColor(color);
+            case 4 -> custom[3].setRectColor(color);
+            case 5 -> custom[4].setRectColor(color);
+
+        }
     }
 
     public Color getStrokeColor() {
@@ -63,9 +77,6 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
     @Override
     public void click(int x, int y) {
-        if (gradient != null)
-            gradient.click(x, y);
-
         for (int i = 0; i < buttons.size(); i++) {
             if(buttons.get(i).IsClicked(x, y)) {
                 if (buttons.get(i) instanceof ToggleButton || buttons.get(i) instanceof ListButton) {
@@ -129,12 +140,23 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
     public void addPaletteButtons(int x, int y, int size, int num) {
         // Populate array of colors to iteratively assign to palette buttons
-        Color[] colors = {Color.BLACK, Color.gray, Color.RED, Color.ORANGE, Color.PINK, Color.WHITE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE};
+        Color[] colors = {Color.BLACK, Color.gray, Color.RED, Color.ORANGE, Color.PINK, Color.WHITE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
 
         // Iterative assign a grid of colors
-        int j = num / 2;
+        int j = num / 3;
         for (int i = 0; i < num; i++) {
             buttons.add(new PaletteButton(x + ((i % j) * size), y + ((i / j) * size), size, colors[i]));
         }
+        for (int i = 0; i < custom.length; i++) {
+            custom[i] = buttons.get(i + 12);
+        }
+
+
+        gradientButton = new GradientButton(x + (size * 5), y , size + 22, size * 3, gradientPic, "Gradient");
+//        grid = new Grid(gradient.x + gradient.width + 10 , gradient.y, pressed.getWidth(null), pressed.getHeight(null), depressed, pressed, toolbar_color);
+//        strokeSize = new StrokeSize(grid.x + grid.width + 10, grid.y, strokePic.getWidth(null),strokePic.getHeight(null), strokePic, strokePic, toolbar_color);
+//        array3 = new Button[]{ gradientButton};
+        buttons.add(gradientButton);
+        gradient = GradientWindow.getInstance(b.getwidth() / 4, b.getheight() / 4, b.getwidth() / 2, b.getwidth() / 2);
     }
 }

@@ -88,7 +88,7 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
 
     public void addlayer() {
         buttons.add(new ListButton(super.getCentre().x + stroke, super.getCentre().y + height - (32 * (buttons.size() + 1)) - stroke, super.width - (stroke * 2), 32, "Layer" + (buttons.size() + 1)));
-        b.layer.add(new Stack<Shape>());
+        b.layer.add(new Stack<>());
         System.out.println(b.layer.size());
         selected = buttons.get(buttons.size() - 1);
         selectedStack = b.layer.get(b.layer.size() - 1);

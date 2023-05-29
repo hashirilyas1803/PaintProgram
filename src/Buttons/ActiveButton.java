@@ -41,7 +41,7 @@ public class ActiveButton extends Button implements Interactibility {
         if (text != null){
             g.setColor(Color.BLACK);
             g.setFont(new Font("TimesNewRoman", Font.BOLD, 10));
-            g.drawString(text, x +  width / 4 - 10, y + height / 2);
+            g.drawString(text, x +  width / 4 - width / 10, y + height / 2);
         }
     }
 }

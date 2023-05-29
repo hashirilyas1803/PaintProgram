@@ -8,9 +8,16 @@ import java.awt.*;
 public class ColorButton extends ToggleButton implements Interactibility {
     private RectangleTemplate colorRect;
     private final String text;
+    private Image image;
     public ColorButton(int x, int y, int width, int height, String text) {
         super(x, y, width, height);
-        this.colorRect = new RectangleTemplate(x + 5, y + 5, width - 10, width - 10, Color.BLACK, Color.LIGHT_GRAY, 2);
+        this.colorRect = new RectangleTemplate(x + width / 10, y + height / 7, (width * 3) / 4, (width * 3) / 4, Color.BLACK, Color.LIGHT_GRAY, 2);
+        this.text = text;
+    }
+
+    public ColorButton(int x, int y, int width, int height, Image image, String text) {
+        super(x, y, width, height);
+        this.image = image.getScaledInstance((width * 3) / 4, (width * 3) / 4, Image.SCALE_FAST);
         this.text = text;
     }
 
@@ -39,12 +46,17 @@ public class ColorButton extends ToggleButton implements Interactibility {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        colorRect.paint(g);
+        if (image == null)
+            colorRect.paint(g);
+        else
+            g.drawImage(image, x + width / 10, y + height / 7, null);
 
         g.setColor(Color.BLACK);
-        g.setFont(new Font("TimesNewRoman", Font.PLAIN, 10));
+        int size = 14;
+        g.setFont(new Font("TimesNewRoman", Font.PLAIN, size));
         String[] text1 = text.split(" ");
-        g.drawString(text1[0], x + 5, y + width + 5);
-        g.drawString(text1[1], x + 5, y + width + 15);
+        g.drawString(text1[0], x + width / 10, y + (height * 3) / 5 + 5);
+        if (text1.length == 2)
+            g.drawString(text1[1], x + width / 10, y + (height * 3) / 5 + 5 + size);
     }
 }

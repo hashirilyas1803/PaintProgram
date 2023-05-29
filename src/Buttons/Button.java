@@ -38,7 +38,7 @@ public class Button implements Interactibility
 		lineColor = Color.LIGHT_GRAY;
 	}
 
-	public Image GetImage()
+    public Image GetImage()
 	{
 		return current_image;
 	}
@@ -66,6 +66,12 @@ public class Button implements Interactibility
 		}
 		return false;
 	}
+
+	public void color(Graphics g){
+		g.setColor(rectColor);
+		g.fillRect(x,y,width, height);
+	}
+
 
 	@Override
 	public void press(int x, int y) {

@@ -19,11 +19,7 @@ public class FreeDrawing extends Shape{
 
     public void freeDrawing(int x, int y) {
         if (!stop) {
-            for (int i = x1, j = y1; i < x || j < y; i++, j++) {
-                drawing.add(new Circle(stroke, new Point(i, j), color, null, 0));
-            }
-            x1 = x;
-            y1 = y;
+            drawing.add(new Circle(stroke, new Point(x, y), color, null, 0));
         }
     }
 

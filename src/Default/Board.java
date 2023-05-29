@@ -1,7 +1,6 @@
 package Default;
 
 import Buttons.ColorButton;
-import Buttons.GradientButton;
 import Canvas.Point;
 import Canvas.Queue;
 import Canvas.Rectangle;
@@ -23,7 +22,7 @@ public class Board extends JPanel
     // Attributes
     private final int B_WIDTH = 1000;
     private final int B_HEIGHT = 800;
-    private final int DELAY = 25;
+    private final int DELAY = 0;
     private final int HEIGHT = 32;
     private int width = B_WIDTH;
     private int height = B_HEIGHT;
@@ -63,7 +62,7 @@ public class Board extends JPanel
     private Random random = new Random();
     public Queue<Shape> redo = new Queue<>();
     public LinkedList<Stack<Shape>> layer = new LinkedList<>();
-    TextBox textBox = new TextBox(200, 500, 100);
+//    TextBox textBox = new TextBox(200, 500, 100);
 
     @Override
     public void componentResized(ComponentEvent e) {
@@ -110,13 +109,13 @@ public class Board extends JPanel
             key = e.getKeyCode();
 
             if (key == KeyEvent.VK_BACK_SPACE) {
-                textBox.delete();
+//                textBox.delete();
             }
             else if (key == KeyEvent.VK_SPACE) {
                 undo();
             }
             else {
-                textBox.input(String.valueOf(e.getKeyChar()));
+//                textBox.input(String.valueOf(e.getKeyChar()));
             }
 
 
@@ -138,7 +137,7 @@ public class Board extends JPanel
         header = new Header(0, 0, this.B_WIDTH, HEIGHT, Color.WHITE, Color.LIGHT_GRAY, 0, this);
 
         // Initialize the Menubar window
-        menuBar = new Window(0, HEIGHT + 2, width, HEIGHT * 3, Color.WHITE, Color.LIGHT_GRAY, 2);
+        menuBar = new Window(0, HEIGHT + 2, width, (HEIGHT * 9) / 2, Color.WHITE, Color.LIGHT_GRAY, 2);
 
         // Add the shapes toolbar
         shapes = new ToolBar(width/60, menuBar.centre.y + 16, (HEIGHT * 3) + 4, (HEIGHT * 2) + 4, Color.WHITE,Color.LIGHT_GRAY, 2, this);
@@ -150,23 +149,23 @@ public class Board extends JPanel
         shapes.addShapes(xtemp, ytemp, 32);
 
         // Add the color toolbar
-        color = new ToolBar(width / 5, menuBar.centre.y + 16, (HEIGHT * 8) + 20, (HEIGHT * 2) + 4, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
+        color = new ToolBar(width / 5, menuBar.centre.y + 8, (HEIGHT * 15) + 20, (HEIGHT * 2) + 66, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
         menuBar.addToolBar(color);
 
         // Add buttons to the color toolbar
         xtemp = color.centre.x + 2;
         ytemp = color.centre.y + shapes.stroke;
-        color.buttons.add(new ColorButton(xtemp, ytemp, 42, 64, "Stroke Color"));
-        color.buttons.add(new ColorButton(xtemp + 42, ytemp, 42, 64, "Fill Color"));
-        color.addPaletteButtons(xtemp + (42 * 2), ytemp, 32, 10);
+        color.buttons.add(new ColorButton(xtemp, ytemp, 64, 126, "Stroke Color"));
+        color.buttons.add(new ColorButton(xtemp + 64, ytemp, 64, 126, "Fill Color"));
+        color.addPaletteButtons(xtemp + (64 * 2), ytemp, 42, 15);
         xtemp = color.centre.x + color.width - 42;
-        color.buttons.add(new GradientButton(xtemp, ytemp, 42, 64, "Gradient"));
+//        color.buttons.add(new GradientButton(xtemp, ytemp, 42, 64, "Gradient"));
 
         // Add a layers toolbar
         layers = new LayersToolBar((width * 4) / 5, height / 4, width / 5, (height * 2) / 3, Color.GRAY, Color.LIGHT_GRAY, 2, this);
 
         // Add a Window for drawing
-        panel = new Window(1, 150, (width * 3) / 4, (height * 3) / 4, Color.WHITE, Color.LIGHT_GRAY, 1);
+        panel = new Window(1, menuBar.centre.y + menuBar.height + 4, (width * 3) / 4, (height * 3) / 4, Color.WHITE, Color.LIGHT_GRAY, 1);
     }
 
     private void initBoard() {
@@ -198,6 +197,8 @@ public class Board extends JPanel
 //                throw new RuntimeException(e);
 //            }
 //        }
+
+
         for (int i = 0; i < layer.size(); i++) {
             Stack<Shape> temp = new Stack<>();
             while(!layer.get(i).isEmpty()) {
@@ -215,7 +216,7 @@ public class Board extends JPanel
         menuBar.paint(g);
         header.paint(g);
         layers.paint(g);
-        textBox.paint(g);
+//        textBox.paint(g);
 
 
         if(keyPressed)
@@ -271,7 +272,7 @@ public class Board extends JPanel
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
         int x = e.getX(), y = e.getY();
-        textBox.click(x, y);
+//        textBox.click(x, y);
         if (panel.inBounds(x, y)) {
             if (SwingUtilities.isLeftMouseButton(e)) {
 
@@ -287,11 +288,14 @@ public class Board extends JPanel
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
         int x = e.getX(), y = e.getY();
+        color.gradient.Clicked(x, y);
         if (panel.inBounds(x, y)) {
             if(SwingUtilities.isLeftMouseButton(e))
             {
                 x1 = e.getX();
                 y1 = e.getY();
+                if (shape.equals("Free-Drawing"))
+                    drawing = new FreeDrawing(new Point(x1, y1), color.getStrokeColor(), stroke);
             }
         }
         else{
@@ -339,6 +343,7 @@ public class Board extends JPanel
         if(SwingUtilities.isLeftMouseButton(e))
         {
             int x = e.getX(), y = e.getY();
+            color.gradient.Dragged(x, y);
             if (panel.inBounds(x, y)) {
                 // Repeated draw and erase the shapes while dragging for the user to judge how big they should be
 
@@ -416,10 +421,8 @@ public class Board extends JPanel
                     layer.get(layer.size() - 1).push(hexagon);
                 }
                 else if (shape.equals("Free-Drawing")) {
-                    if (occur == 0) {
-                        drawing = new FreeDrawing(new Point(x1, y1), color.getStrokeColor(), stroke);
+                    if (occur == 0)
                         layer.get(layer.size() - 1).push(drawing);
-                    }
                     drawing.freeDrawing(x, y);
                 }
                 occur++;
