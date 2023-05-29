@@ -20,7 +20,7 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
 
         // Add the adding removing buttons
         activeButtons = new ActiveButton[4];
-        int bx = x + stroke;
+        int bx = x + stroke - 1;
         int by = y + stroke;
         int bw = width / activeButtons.length;
         activeButtons[0] = new ActiveButton(bx, by, bw, 32, "Add");

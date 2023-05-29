@@ -38,7 +38,7 @@ public class Button implements Interactibility
 		lineColor = Color.LIGHT_GRAY;
 	}
 
-    public Image GetImage()
+	public Image GetImage()
 	{
 		return current_image;
 	}

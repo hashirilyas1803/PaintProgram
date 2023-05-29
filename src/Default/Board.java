@@ -20,7 +20,7 @@ public class Board extends JPanel
         implements ActionListener , MouseInputListener, DrawButtons, ComponentListener {
 
     // Attributes
-    private final int B_WIDTH = 1000;
+    private final int B_WIDTH = 1200;
     private final int B_HEIGHT = 800;
     private final int DELAY = 0;
     private final int HEIGHT = 32;
@@ -45,7 +45,7 @@ public class Board extends JPanel
     private ToolBar shapes;
     private ToolBar color;
     private LayersToolBar layers;
-    Window panel;
+    public Window panel;
 
 
     // Drawing variables
@@ -149,7 +149,7 @@ public class Board extends JPanel
         shapes.addShapes(xtemp, ytemp, 32);
 
         // Add the color toolbar
-        color = new ToolBar(width / 5, menuBar.centre.y + 8, (HEIGHT * 15) + 20, (HEIGHT * 2) + 66, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
+        color = new ToolBar(width / 3, menuBar.centre.y + 8, (HEIGHT * 16) + 20, (HEIGHT * 2) + 66, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
         menuBar.addToolBar(color);
 
         // Add buttons to the color toolbar
@@ -158,14 +158,12 @@ public class Board extends JPanel
         color.buttons.add(new ColorButton(xtemp, ytemp, 64, 126, "Stroke Color"));
         color.buttons.add(new ColorButton(xtemp + 64, ytemp, 64, 126, "Fill Color"));
         color.addPaletteButtons(xtemp + (64 * 2), ytemp, 42, 15);
-        xtemp = color.centre.x + color.width - 42;
-//        color.buttons.add(new GradientButton(xtemp, ytemp, 42, 64, "Gradient"));
 
         // Add a layers toolbar
-        layers = new LayersToolBar((width * 4) / 5, height / 4, width / 5, (height * 2) / 3, Color.GRAY, Color.LIGHT_GRAY, 2, this);
+        layers = new LayersToolBar((width * 41) / 50, height / 4, (width * 17)/ 100, (height * 2) / 3, Color.GRAY, Color.LIGHT_GRAY, 2, this);
 
         // Add a Window for drawing
-        panel = new Window(1, menuBar.centre.y + menuBar.height + 4, (width * 3) / 4, (height * 3) / 4, Color.WHITE, Color.LIGHT_GRAY, 1);
+        panel = new Window(1, menuBar.centre.y + menuBar.height + 4, (width * 4) / 5, (height * 3) / 4, Color.WHITE, Color.LIGHT_GRAY, 1);
     }
 
     private void initBoard() {
@@ -211,12 +209,11 @@ public class Board extends JPanel
                 layer.get(i).push(temp2);
             }
         }
-        g.setColor(Color.BLACK);
-        g.drawString(shape, panel.centre.x + panel.width - 100, panel.centre.y + panel.height - 50);
         menuBar.paint(g);
         header.paint(g);
         layers.paint(g);
-//        textBox.paint(g);
+        g.setColor(Color.BLACK);
+        g.drawString(shape, panel.centre.x + panel.width - 100, panel.centre.y + panel.height - 50);
 
 
         if(keyPressed)
@@ -263,8 +260,10 @@ public class Board extends JPanel
             return;
         if (shapes.IsClicked(x, y))
             shapes.click(x, y);
-        else if (color.IsClicked(x, y))
+        else if (color.IsClicked(x, y)) {
             color.click(x, y);
+            stroke = color.strokeSize.getSize();
+        }
         layers.click(x, y);
     }
 

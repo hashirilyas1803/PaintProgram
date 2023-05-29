@@ -6,6 +6,7 @@ import Interfaces.Interactibility;
 import java.awt.*;
 
 public class ColorButton extends ToggleButton implements Interactibility {
+    private boolean empty;
     private RectangleTemplate colorRect;
     private final String text;
     private Image image;
@@ -19,6 +20,12 @@ public class ColorButton extends ToggleButton implements Interactibility {
         super(x, y, width, height);
         this.image = image.getScaledInstance((width * 3) / 4, (width * 3) / 4, Image.SCALE_FAST);
         this.text = text;
+    }
+    public ColorButton(int x, int y, int width, int height, boolean empty, String text) {
+        super(x, y, width, height);
+        this.colorRect = new RectangleTemplate(x + width / 10, y + height / 7, (width * 3) / 4, (width * 3) / 4, Color.BLACK, Color.LIGHT_GRAY, 2);
+        this.text = text;
+        this.empty = empty;
     }
 
 
@@ -46,10 +53,12 @@ public class ColorButton extends ToggleButton implements Interactibility {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (image == null)
-            colorRect.paint(g);
-        else
-            g.drawImage(image, x + width / 10, y + height / 7, null);
+        if (!empty) {
+            if (image == null)
+                colorRect.paint(g);
+            else
+                g.drawImage(image, x + width / 10, y + height / 7, null);
+        }
 
         g.setColor(Color.BLACK);
         int size = 14;

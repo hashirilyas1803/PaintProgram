@@ -16,8 +16,7 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
     protected ArrayList<Button> buttons;
     protected ColorButton selected;
     protected GradientWindow gradient;
-    private Button [] array3;
-    private GradientButton gradientButton;
+    public IncrementerButton strokeSize;
     public static Button[] custom = new Button[5];
     private Image gradientPic= new ImageIcon("src/Resources/gradient.png").getImage();
     public ToolBar(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke, Board b) {
@@ -33,7 +32,7 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
         super.paint(g);
         if (!buttons.isEmpty()) {
             for (Button button : buttons) {
-                if (button instanceof ColorButton || button instanceof PaletteButton)
+                if (button instanceof ColorButton || button instanceof PaletteButton || button instanceof GridButton)
                     button.paint(g);
                 else
                     drawButton(button, g, b);
@@ -150,13 +149,10 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
         for (int i = 0; i < custom.length; i++) {
             custom[i] = buttons.get(i + 12);
         }
-
-
-        gradientButton = new GradientButton(x + (size * 5), y , size + 22, size * 3, gradientPic, "Gradient");
-//        grid = new Grid(gradient.x + gradient.width + 10 , gradient.y, pressed.getWidth(null), pressed.getHeight(null), depressed, pressed, toolbar_color);
-//        strokeSize = new StrokeSize(grid.x + grid.width + 10, grid.y, strokePic.getWidth(null),strokePic.getHeight(null), strokePic, strokePic, toolbar_color);
-//        array3 = new Button[]{ gradientButton};
-        buttons.add(gradientButton);
+        buttons.add(new GradientButton(x + (size * 5), y, size + 22, size * 3, gradientPic, "Gradient"));
+        buttons.add(new GridButton(x + (size * 6) + 22 , y, size + 22, size * 3, b));
+        strokeSize = new IncrementerButton(x + (size * 7) + 44, y, size + 22, size * 3, "Stroke Size", 8,b);
+        buttons.add(strokeSize);
         gradient = GradientWindow.getInstance(b.getwidth() / 4, b.getheight() / 4, b.getwidth() / 2, b.getwidth() / 2);
     }
 }

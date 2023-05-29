@@ -27,6 +27,8 @@ public class Window extends RectangleTemplate {
         }
     }
 
+
+
     public boolean inBounds(int x, int y) {
         return (x > centre.x && x < centre.x + width && y > centre.y && y < centre.y + height);
     }

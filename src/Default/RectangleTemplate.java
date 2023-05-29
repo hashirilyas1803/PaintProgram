@@ -24,6 +24,14 @@ public class RectangleTemplate {
         this.stroke = stroke;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public Point getCentre() {
         return centre;
     }
