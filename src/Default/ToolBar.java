@@ -4,6 +4,7 @@ import Buttons.*;
 import Buttons.Button;
 import Interfaces.DrawButtons;
 import Interfaces.Interactibility;
+import Interfaces.ToolBarListener;
 import Windows.GradientWindow;
 import Windows.GradientWindow2;
 
@@ -11,20 +12,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ToolBar extends RectangleTemplate implements Interactibility, DrawButtons {
+public class ToolBar extends RectangleTemplate implements Interactibility, DrawButtons, ToolBarListener {
     protected Board b;
     protected ArrayList<Button> buttons;
     protected ColorButton selected;
     protected GradientWindow gradient;
     public IncrementerButton strokeSize;
     public static Button[] custom = new Button[5];
+
+    private String type;
     private Image gradientPic= new ImageIcon("src/Resources/gradient.png").getImage();
     public ToolBar(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke, Board b) {
         super(x, y, width, height, rectColor, lineColor, stroke);
         this.b = b;
         buttons = new ArrayList<>();
-        int h = b.getheight();
-        int w = b.getwidth();
     }
 
     @Override
@@ -129,6 +130,7 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
     }
 
     public void addShapes(int x, int y, int size) {
+        this.type = "Shape";
         buttons.add(new ListButton(x, y, size, size, new ImageIcon("src/resources/right_triangle_button.png").getImage(), new ImageIcon("src/resources/right_triangle_button_pressed.png").getImage()));
         buttons.add(new ListButton(x + b.getHEIGHT(), y, size, size, new ImageIcon("src/resources/equilateral_triangle_button.png").getImage(), new ImageIcon("src/resources/equilateral_triangle_button_pressed.png").getImage()));
         buttons.add(new ListButton(x + (b.getHEIGHT() * 2), y, size, size, new ImageIcon("src/resources/rectangle_button.png").getImage(), new ImageIcon("src/resources/rectangle_button_pressed.png").getImage()));
@@ -138,6 +140,7 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
     }
 
     public void addPaletteButtons(int x, int y, int size, int num) {
+        this.type = "Color";
         // Populate array of colors to iteratively assign to palette buttons
         Color[] colors = {Color.BLACK, Color.gray, Color.RED, Color.ORANGE, Color.PINK, Color.WHITE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
 
@@ -150,9 +153,51 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
             custom[i] = buttons.get(i + 12);
         }
         buttons.add(new GradientButton(x + (size * 5), y, size + 22, size * 3, gradientPic, "Gradient"));
-        buttons.add(new GridButton(x + (size * 6) + 22 , y, size + 22, size * 3, b));
-        strokeSize = new IncrementerButton(x + (size * 7) + 44, y, size + 22, size * 3, "Stroke Size", 8,b);
+        buttons.add(new GridButton(x + (size * 6) + 22 , y, size + 22, (size * 3) / 2, b));
+        strokeSize = new IncrementerButton(x + (size * 6) + 22, y + (size * 3) / 2, size + 22, (size * 3) / 2, "Stroke Size", 8,b);
         buttons.add(strokeSize);
-        gradient = GradientWindow.getInstance(b.getwidth() / 4, b.getheight() / 4, b.getwidth() / 2, b.getwidth() / 2);
+        gradient = GradientWindow.getInstance(b.getwidth() / 4, b.getheight() / 5, b.getwidth() / 2, (b.getheight() * 3) / 4);
+    }
+
+    @Override
+    public void Moved(int x, int y) {
+        Tooltip.getCoords(x,y);
+        String info = "";
+        if (type.equals("Color")) {
+
+            if ( buttons.get(0).IsClicked(x, y) ){
+                info = "Stroke Color";
+            }
+            else if ( buttons.get(1).IsClicked(x, y)  ){
+                info = "Fill Color";
+            }
+            for (int i = 2; i < 15; i++) {
+                Button button = buttons.get(i);
+                if (button.IsClicked(x, y) ){
+                    info = "R: " + button.getRectColor().getRed() + " G: " + button.getRectColor().getGreen() + " B: " + button.getRectColor().getBlue();
+                }
+            }
+            if ( buttons.get(17).IsClicked(x, y) ){
+                info = "Gradient";
+            }
+            else if ( buttons.get(18).IsClicked(x, y)  ){
+                info = "Grid size";
+            }
+            else if ( buttons.get(19).IsClicked(x, y)  ){
+                info = "Stroke size";
+
+            }
+
+        }
+        else if (type.equals("Shape")) {
+            String[] shapes = {"Right-Angled-Triangle", "Equilateral-Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram"};
+            for (int i = 0; i < buttons.size(); i++) {
+                Button button = buttons.get(i);
+                if (button.IsClicked(x, y) ){
+                    info = shapes[i];
+                }
+            }
+        }
+        Tooltip.getInfo(info);
     }
 }

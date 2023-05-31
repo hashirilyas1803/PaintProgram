@@ -46,6 +46,7 @@ public class Board extends JPanel
     private ToolBar color;
     private LayersToolBar layers;
     public Window panel;
+    public Tooltip tooltip;
 
 
     // Drawing variables
@@ -149,7 +150,7 @@ public class Board extends JPanel
         shapes.addShapes(xtemp, ytemp, 32);
 
         // Add the color toolbar
-        color = new ToolBar(width / 3, menuBar.centre.y + 8, (HEIGHT * 16) + 20, (HEIGHT * 2) + 66, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
+        color = new ToolBar(width / 3, menuBar.centre.y + 8, (HEIGHT * 15) - 12, (HEIGHT * 2) + 66, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
         menuBar.addToolBar(color);
 
         // Add buttons to the color toolbar
@@ -164,6 +165,8 @@ public class Board extends JPanel
 
         // Add a Window for drawing
         panel = new Window(1, menuBar.centre.y + menuBar.height + 4, (width * 4) / 5, (height * 3) / 4, Color.WHITE, Color.LIGHT_GRAY, 1);
+
+        tooltip =  Tooltip.getInstance(this);
     }
 
     private void initBoard() {
@@ -214,6 +217,8 @@ public class Board extends JPanel
         layers.paint(g);
         g.setColor(Color.BLACK);
         g.drawString(shape, panel.centre.x + panel.width - 100, panel.centre.y + panel.height - 50);
+
+        tooltip.paint(g);
 
 
         if(keyPressed)
@@ -435,6 +440,13 @@ public class Board extends JPanel
 		// TODO Auto-generated method stub
 		x_final = e.getX() - x_init;
 		y_final = e.getY() - y_init;
+        if (shapes.IsClicked(x_final, y_final))
+            shapes.Moved(x_final, y_final);
+        else if (color.IsClicked(x_final, y_final))
+            color.Moved(x_final, y_final);
+        else if (layers.IsClicked(x_final, y_final))
+            layers.Moved(x_final, y_final);
+
 	}
 
     public int getwidth() {

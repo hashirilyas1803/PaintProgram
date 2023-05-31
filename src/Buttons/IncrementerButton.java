@@ -41,7 +41,7 @@ public class IncrementerButton extends ColorButton{
         int stringWidth = metrics.stringWidth(String.valueOf(size));
         int stringHeight = metrics.getHeight();
         int centerX = x + 30 - stringWidth / 2;
-        int centerY = y + 20 + stringHeight / 2;
+        int centerY = y + 10 + stringHeight / 2;
         g.drawString(String.valueOf(size),centerX,centerY);
     }
 }

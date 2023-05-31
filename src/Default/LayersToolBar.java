@@ -1,6 +1,7 @@
 package Default;
 
 import Buttons.ActiveButton;
+import Buttons.Button;
 import Buttons.ListButton;
 import Canvas.Shape;
 import Canvas.Stack;
@@ -128,6 +129,19 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
     }
 
     @Override
+    public boolean IsClicked(int x, int y) {
+        for (ActiveButton activeButton : activeButtons) {
+            if (activeButton.IsClicked(x, y))
+                return true;
+        }
+        for (Button button : buttons) {
+            if (button.IsClicked(x, y))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public void press(int x, int y) {
         for (ActiveButton button : activeButtons) {
             if (button != null && button.IsClicked(x, y)) {
@@ -163,5 +177,30 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).paint(g);
         }
+    }
+
+    @Override
+    public void Moved(int x, int y) {
+        Tooltip.getCoords(x,y);
+        String info = "";
+
+        if (activeButtons[0].IsClicked(x, y))
+            info = "Add Layer";
+        else if (activeButtons[1].IsClicked(x, y))
+            info = "Remove Layer";
+        else if (activeButtons[2].IsClicked(x, y))
+            info = "Raise Layer";
+        else if (activeButtons[3].IsClicked(x, y))
+            info = "Lower Layer";
+
+        int i = 1;
+        for (Button button : buttons) {
+            if (button.IsClicked(x, y)) {
+                info = "Layer " + i;
+            }
+            i++;
+        }
+
+        Tooltip.getInfo(info);
     }
 }
