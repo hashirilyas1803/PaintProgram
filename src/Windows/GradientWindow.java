@@ -129,7 +129,7 @@ public class GradientWindow extends PopUpWindow{
             if (drag)
             {
                 g.setColor(Color.black);
-                g.drawString("*",x,y);
+                g.drawString("*", xdrag, ydrag);
             }
             // add button
             add.paint(g);

@@ -22,9 +22,9 @@ public class Hexagon extends Shape{
     }
     public void hex() {
         for (double i = 0; i < 6; i++) {
-            double b = Math.toRadians(i);
-            x[(int) i] = xc + (int) (R * Math.cos(60 + (b * 60)));
-            y[(int) i] = yc + (int) (R * Math.sin(60 + (b * 60)));
+            double b = Math.toRadians(60 + (i * 60));
+            x[(int) i] = xc + (int) (R * Math.cos(b));
+            y[(int) i] = yc + (int) (R * Math.sin(b));
         }
     }
 

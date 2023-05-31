@@ -67,9 +67,9 @@ public class Board extends JPanel
 
     @Override
     public void componentResized(ComponentEvent e) {
-        width = getWidth();
-        height = getHeight();
-        InitializeAssets();
+//        width = getWidth();
+//        height = getHeight();
+//        InitializeAssets();
     }
 
     @Override
