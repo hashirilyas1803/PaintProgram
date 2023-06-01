@@ -11,7 +11,7 @@ public class RectangleTemplate {
     protected int height;
     Color rectColor;
     Color lineColor;
-    int stroke;
+    public int stroke;
     Color textColor;
 
     // Methods

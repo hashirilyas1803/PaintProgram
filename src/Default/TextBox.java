@@ -57,4 +57,8 @@ public class TextBox extends Window implements Interactibility{
     public void release(int x, int y) {
 
     }
+
+    public String getFilepath() {
+        return text;
+    }
 }

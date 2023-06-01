@@ -8,7 +8,10 @@ import java.util.LinkedList;
 
 public class Serialization implements Serializable {
 String filepath = "";
+    File [] list;
     public Serialization() {
+        File folder = new File("src/Files");
+        list = folder.listFiles();
     }
 
     public void writing(Board board) {
@@ -16,7 +19,7 @@ String filepath = "";
 
             try {
 
-                FileOutputStream fileOut = new FileOutputStream(filepath);
+                FileOutputStream fileOut = new FileOutputStream("src/Files/" + filepath);
                 ObjectOutputStream writer = new ObjectOutputStream(fileOut);
 //                while (stack.top != null){
 //                    Shape data = stack.pop();
@@ -24,6 +27,7 @@ String filepath = "";
 //                    writer.write('\n');
 //                }
                 writer.writeObject(board.layer);
+                //writer.writeObject(board.redo);
 
 
                 writer.close();
@@ -38,7 +42,7 @@ String filepath = "";
     public void reading(Board board){
         try {
 
-            FileInputStream fileIn = new FileInputStream(filepath );
+            FileInputStream fileIn = new FileInputStream("src/Files/" +filepath);
             ObjectInputStream in = new ObjectInputStream(fileIn);
 //            while (stack.top != null) {
 //                Shape data = stack.pop();
@@ -47,6 +51,7 @@ String filepath = "";
 //            stack = (Stack) in.readObject();
 
            LinkedList<Stack<Shape>> temp = (LinkedList<Stack<Shape>>) in.readObject();
+           //LinkedList<Queue<Shape>> temp1 = (LinkedList<Queue<Shape>>) in.readObject();
 
 
             for (int i = 0; i < temp.size(); i++) {
@@ -55,22 +60,26 @@ String filepath = "";
             for (int i = 0; i < temp.size(); i++) {
                 board.layer.set(i,temp.get(i));
             }
+//            for (int i = 0; i < temp1.size(); i++) {
+//                board.redo.set(i,temp1.get(i));
+//            }
+
             board.layers.removelayer();
             in.close();
             fileIn.close();
-            File folder = new File("src/Files");
-            File[] listOfFiles = folder.listFiles();
 
-            for (File file : listOfFiles) {
-                if (file.isFile()) {
-                    System.out.println(file.getName());
-                }
-            }
+
+
 //            while (!stack.isEmpty()) {
 //                shape = stack.pop();
 //                System.out.println(shape);
 //            }
-        } catch (IOException ex) {
+        }
+        catch (EOFException exe){
+            System.out.println("File empty");
+            return;
+        }
+        catch (IOException ex) {
             System.out.println("File not found!");
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -83,6 +92,10 @@ String filepath = "";
     }
 
     public void setFilepath(String filepath) {
-        this.filepath = filepath + ".ser";
+        this.filepath = filepath;
+    }
+
+    public File[] getList() {
+        return list;
     }
 }

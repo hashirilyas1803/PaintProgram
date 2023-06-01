@@ -60,4 +60,8 @@ public class ListButton extends Button {
             g.drawString(text, x + 5, y + height / 2);
         }
     }
+
+    public String getText() {
+        return text;
+    }
 }

@@ -56,13 +56,21 @@ public class Triangle extends Shape{
         // Draw the shape outline
         int[] x = {center.x, corner1.x, corner2.x};
         int[] y = {center.y, corner1.y, corner2.y};
-        g.setColor(strokeColor);
+        g.setColor(color);
         g.fillPolygon(x, y, 3);
 
         // Draw the shape
-        int[] x1 = {center.x, corner1.x - stroke / 2, corner2.x + stroke / 2};
+       /* int[] x1 = {center.x, corner1.x - stroke / 2, corner2.x + stroke / 2};
         int[] y1 = {center.y + stroke, corner1.y - stroke / 2, corner2.y - stroke / 2};
         g.setColor(color);
-        g.fillPolygon(x1, y1, 3);
+        g.fillPolygon(x1, y1, 3);*/
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(strokeColor);
+        g2.setStroke(new BasicStroke(stroke));
+        g2.drawPolygon(x, y, 3);
+        g2.setStroke(new BasicStroke(0));
+
+
     }
 }

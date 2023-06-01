@@ -1,6 +1,7 @@
 package Default;
 
 import Buttons.ColorButton;
+import Buttons.GradientButton;
 import Canvas.Point;
 import Canvas.Queue;
 import Canvas.Rectangle;
@@ -113,15 +114,25 @@ public class Board extends JPanel
             key = e.getKeyCode();
 
             if (key == KeyEvent.VK_BACK_SPACE) {
-//                textBox.delete();
+                if (Header.save_) {
+                    header.delete();
+                }
             }
             else if (key == KeyEvent.VK_SPACE) {
                 int temp = layer.size() - 1;
                 if (!redo.get(temp).isEmpty())
                     layer.get(temp).push(redo.get(temp).dequeue());
             }
+            else if (key == KeyEvent.VK_ENTER) {
+//                header.save.textBox.path();
+                System.out.println(header.save.textBox.getFilepath() + 555);
+                Header.save_ = false;
+            }
             else {
-//                textBox.input(String.valueOf(e.getKeyChar()));
+                if (Header.save_) {
+                    header.write(String.valueOf(e.getKeyChar()));
+                }
+
             }
 
 
@@ -280,9 +291,10 @@ public class Board extends JPanel
 		// TODO Auto-generated method stub
         int x = e.getX(), y = e.getY();
 //        textBox.click(x, y);
-        if (panel.inBounds(x, y)) {
+        if (panel.inBounds(x, y) && !Header.save_ && !Header.open_ && !GradientButton.window) {
             if (SwingUtilities.isLeftMouseButton(e)) {
-
+                x1 = x;
+                y1 = y;
             }
         }
         else {

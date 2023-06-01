@@ -42,16 +42,26 @@ public class Pentagram extends Shape{
     public void draw(Graphics g) {
         // Draw the shape outline
         pentagram();
-        g.setColor(strokeColor);
-        g.fillPolygon(x, y, 10);
-        R -= stroke;
-        R2 -= (stroke / 2);
-
-        // Draw the shape
-        pentagram();
         g.setColor(color);
         g.fillPolygon(x, y, 10);
-        R += stroke;
-        R2 += (stroke / 2);
+        //R -= stroke;
+        //R2 -= (stroke / 2);
+
+//
+//
+//        // Draw the shape
+//        pentagram();
+//        g.setColor(color);
+//        g.fillPolygon(x, y, 10);
+//        R += stroke;
+//        R2 += (stroke / 2);
+
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(strokeColor);
+        g2.setStroke(new BasicStroke(stroke));
+        g2.drawPolygon(x, y, 10);
+        g2.setStroke(new BasicStroke(0));
+
     }
 }

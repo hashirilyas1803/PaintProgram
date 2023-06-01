@@ -17,9 +17,6 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
     public ListButton selected;
     public Stack<Shape> selectedStack;
 
-    public LayersToolBar() {
-        super();
-    }
 
     public LayersToolBar(int x, int y, int width, int height, Color rectColor, Color lineColor, int stroke, Board b) {
         super(x, y, width, height, rectColor, lineColor, stroke, b);
@@ -181,24 +178,7 @@ public class LayersToolBar extends ToolBar implements DrawButtons {
         }
     }
 
-//    public void add_layers(int size){
-//        for (int i = 0; i < size; i++) {
-//            buttons.add(new ListButton(super.getCentre().x + stroke, super.getCentre().y + height - (32 * (i + 2)) - stroke, super.width - (stroke * 2), 32, "Layer" + (buttons.size() + 1)));
-//        }
-//    }
-    public void removeLayer_Serialization() {
-        if (buttons.size() > 1) {
-            int i = 0;
-            buttons.remove(i);
-            b.layer.remove(i);
-            for (int j = i; j < buttons.size(); j++)
-                buttons.get(j).y += 32;
 
-            selected = buttons.get(i);
-            selectedStack = b.layer.get(i);
-
-    }
-}
 
 
 }
