@@ -125,7 +125,10 @@ public class Board extends JPanel
             }
             else if (key == KeyEvent.VK_ENTER) {
 //                header.save.textBox.path();
-                System.out.println(header.save.textBox.getFilepath() + 555);
+                //System.out.println(header.save.textBox.getFilepath() + 555);
+
+
+                header.doWrite();
                 Header.save_ = false;
             }
             else {
@@ -296,6 +299,10 @@ public class Board extends JPanel
                 x1 = x;
                 y1 = y;
             }
+        }
+        else if (header.open.IsClicked(x,y)){
+                header.doRead();
+
         }
         else {
 		    IsClicked(x, y);

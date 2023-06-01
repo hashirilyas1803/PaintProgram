@@ -116,20 +116,29 @@ public class Header extends RectangleTemplate implements Interactibility, DrawBu
                         //open.files(serialization.getList());
                         open_ = true;
 
+//            open.click(x, y);
+
+
+                            open.files(serialization.getList());
+                            open.click(x, y);
+
+//                            serialization.setFilepath(open.filepath);
+//                            serialization.reading(b);
+
+
                         //System.out.println(Arrays.toString(serialization.getList()));
-                        open.files(serialization.getList());
-                        open.setFilepath(save.getFilepath());
                         break;
                     case 2:
                        if (count == 0){
                            save_ = true;
-                           System.out.println(save.getFilepath());
-                           serialization.setFilepath(save.getFilepath());
+                          // System.out.println(save.getFilepath());
+                           //serialization.setFilepath(save.getFilepath());
                        }
-
-                        serialization.writing(b);
-                        count++;
-                        break;
+                        else {
+                           serialization.writing(b);
+                           count++;
+                           break;
+                       }
                 }
             }
             i++;
@@ -160,15 +169,15 @@ public class Header extends RectangleTemplate implements Interactibility, DrawBu
             button.click(x, y);
         }
 
-        if (open.IsClicked(x ,y) && open_) {
-//            open.click(x, y);
-
-
-                open.click(x, y);
-                serialization.setFilepath(open.getFilepath());
-                serialization.reading(b);
-
-        }
+//        if (open.IsClicked(x ,y) && open_) {
+////            open.click(x, y);
+//
+//
+//                open.click(x, y);
+//                serialization.setFilepath(open.getFilepath());
+//                serialization.reading(b);
+//
+//        }
     }
 
     public boolean IsClicked(int x, int y) {
@@ -201,4 +210,13 @@ public class Header extends RectangleTemplate implements Interactibility, DrawBu
     public void delete() {
         save.delete();
     }
+    public void doWrite(){
+        serialization.setFilepath(save.getFilepath());
+        serialization.writing(b);
+    }
+    public void doRead(){
+        serialization.setFilepath(open.filepath);
+        serialization.reading(b);
+    }
+
 }

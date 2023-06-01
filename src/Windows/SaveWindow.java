@@ -21,7 +21,6 @@ public class SaveWindow extends PopUpWindow implements Interactibility {
     }
 
     public String getFilepath(){
-        System.out.println(textBox.getFilepath());
         return textBox.getFilepath();
     }
 

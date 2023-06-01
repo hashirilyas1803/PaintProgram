@@ -11,7 +11,7 @@ public class OpenWindow extends PopUpWindow implements Interactibility {
 
 
     ListButton [] buttons;
-    String filepath;
+    public String filepath;
 
     public OpenWindow(int x, int y, int width, int height, Color rectColor, Color lineColor, String text) {
         super(x, y, width, height, rectColor, lineColor, text);
@@ -23,10 +23,7 @@ public class OpenWindow extends PopUpWindow implements Interactibility {
         super.paint(g);
         if (buttons != null) {
             for (ListButton button : buttons) {
-                if (button != null) {
-                    button.paint(g);
-                    System.out.println(button.getText());
-                }
+                button.paint(g);
             }
         }
 
@@ -38,7 +35,6 @@ public class OpenWindow extends PopUpWindow implements Interactibility {
         buttons = new ListButton[list.length];
         for (int i = 0; i < list.length; i++) {
             buttons[i] = (new ListButton(super.getCentre().x + stroke , super.getCentre().y + height - 32*(i+1) - stroke, super.width - (stroke * 2), 32, list[i].getName()));
-            System.out.println(list[i].getName());
         }
 
     }
@@ -49,12 +45,13 @@ public class OpenWindow extends PopUpWindow implements Interactibility {
         if (buttons != null){
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].click(x,y);
+                filepath = buttons[i].getText();
             }
-            for (int i = 0; i < buttons.length; i++) {
-                if (buttons[i].IsClicked(x,y)){
-                    filepath = buttons[i].getText();
-                }
-            }
+//            for (int i = 0; i < buttons.length; i++) {
+//                if (buttons[i].IsClicked(x,y)){
+//                    filepath = buttons[i].getText();
+//                }
+//            }
         }
     }
 

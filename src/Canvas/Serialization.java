@@ -19,6 +19,7 @@ String filepath = "";
 
             try {
 
+                System.out.println("src/Files/" + filepath);
                 FileOutputStream fileOut = new FileOutputStream("src/Files/" + filepath);
                 ObjectOutputStream writer = new ObjectOutputStream(fileOut);
 //                while (stack.top != null){
@@ -42,7 +43,7 @@ String filepath = "";
     public void reading(Board board){
         try {
 
-            FileInputStream fileIn = new FileInputStream("src/Files/" +filepath);
+            FileInputStream fileIn = new FileInputStream("src/Files/" + filepath);
             ObjectInputStream in = new ObjectInputStream(fileIn);
 //            while (stack.top != null) {
 //                Shape data = stack.pop();
