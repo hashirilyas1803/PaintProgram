@@ -31,5 +31,14 @@ public class FreeDrawing extends Shape{
         for (Circle circle : drawing) {
             circle.draw(g);
         }
+
+        // Only for aesthetic purposes, the actual drawing is being down by the linkedlist of circles
+        for (int i = 0; i < drawing.size()-1; i++) {
+            int x1 = drawing.get(i).getCenter().x;
+            int y1 = drawing.get(i).getCenter().y;
+            int x2 = drawing.get(i + 1).getCenter().x;
+            int y2 = drawing.get(i + 1).getCenter().y;
+            g.drawLine(x1, y1, x2, y2);
+        }
     }
 }

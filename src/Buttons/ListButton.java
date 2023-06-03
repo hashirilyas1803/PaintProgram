@@ -31,6 +31,8 @@ public class ListButton extends Button{
         if (IsClicked(x, y)) {
             if (image_depressed == null || image_pressed == null)
                 showSelection();
+            else
+                super.click(x, y);
         }
     }
 

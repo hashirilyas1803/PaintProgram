@@ -5,9 +5,16 @@ import java.awt.*;
 public class Tooltip {
         private static Tooltip instance = null;
         private Board b;
+        public boolean nowhere;
+
+        static int mouseX;
+        static int mouseY;
+        static String information = "";
+        static boolean show;
 
         private Tooltip(Board b) {
                 this.b = b;
+                this.nowhere = false;
         }
 
         public static Tooltip getInstance(Board b) {
@@ -16,11 +23,6 @@ public class Tooltip {
                 }
                 return instance;
         }
-
-        static int mouseX;
-        static int mouseY;
-        static String information = "";
-        static boolean show;
 
         public static void getInfo (String info) {
             information =  info;
@@ -43,12 +45,12 @@ public class Tooltip {
                 int boxWidth = Math.max(100,textWidth+10);
 
                 g.setColor(Color.LIGHT_GRAY);
-                int x = mouseX + 10;
-                int y = mouseY + 10;
+                int x = mouseX;
+                int y = mouseY;
                 if (mouseX + boxWidth > b.getwidth())
-                        x = mouseX - boxWidth - 10;
+                        x = mouseX - boxWidth;
                 if (mouseY + boxHeight > b.getheight())
-                        y = mouseY - boxHeight - 10;
+                        y = mouseY - boxHeight;
                 g.fillRect(x, y, boxWidth, boxHeight);
                 g.setColor(Color.black);
                 g.setFont(font);

@@ -59,7 +59,7 @@ public class Board extends JPanel
     private Pentagram pentagram;
     private Hexagon hexagon;
     private FreeDrawing drawing;
-    public String shape = "Free-Drawing";
+    public String shape = "";
     private Random random = new Random();
     public Queue<Shape> redo = new Queue<>();
     public LinkedList<Stack<Shape>> layer = new LinkedList<>();
@@ -141,13 +141,13 @@ public class Board extends JPanel
         menuBar = new Window(0, HEIGHT + 2, width, (HEIGHT * 9) / 2, Color.WHITE, Color.LIGHT_GRAY, 2);
 
         // Add the shapes toolbar
-        shapes = new ToolBar(width/60, menuBar.centre.y + 16, (HEIGHT * 3) + 4, (HEIGHT * 2) + 4, Color.WHITE,Color.LIGHT_GRAY, 2, this);
+        shapes = new ToolBar(width/60, menuBar.centre.y + 6, (HEIGHT * 10) + 4, (HEIGHT * 4) + 6, Color.WHITE,Color.LIGHT_GRAY, 2, this);
         menuBar.addToolBar(shapes);
 
         // Adding buttons to the shapes toolbar
         int xtemp = shapes.centre.x + 2;
         int ytemp = shapes.centre.y + shapes.stroke;
-        shapes.addShapes(xtemp, ytemp, 32);
+        shapes.addShapes(xtemp, ytemp, 64);
 
         // Add the color toolbar
         color = new ToolBar(width / 3, menuBar.centre.y + 8, (HEIGHT * 15) - 12, (HEIGHT * 2) + 66, Color.WHITE,  Color.LIGHT_GRAY, 2, this);
@@ -217,8 +217,9 @@ public class Board extends JPanel
         layers.paint(g);
         g.setColor(Color.BLACK);
         g.drawString(shape, panel.centre.x + panel.width - 100, panel.centre.y + panel.height - 50);
+        if (!header.file.IsPressed() && !header.edit.IsPressed() && !tooltip.nowhere)
+            tooltip.paint(g);
 
-        tooltip.paint(g);
 
 
         if(keyPressed)
@@ -260,9 +261,10 @@ public class Board extends JPanel
     
     public void IsClicked(int x, int y)
     {
-        header.click(x, y);
-        if (header.IsClicked(x, y))
+        if (header.IsClicked(x, y)) {
+            header.click(x, y);
             return;
+        }
         if (shapes.IsClicked(x, y))
             shapes.click(x, y);
         else if (color.IsClicked(x, y)) {
@@ -277,6 +279,7 @@ public class Board extends JPanel
 		// TODO Auto-generated method stub
         int x = e.getX(), y = e.getY();
 //        textBox.click(x, y);
+        color.gradient.Dragged(x, y);
         if (panel.inBounds(x, y)) {
             if (SwingUtilities.isLeftMouseButton(e)) {
 
@@ -398,15 +401,15 @@ public class Board extends JPanel
                     layer.get(layer.size() - 1).push(triangle);
                 }
                 else if (shape.equals("Equilateral-Triangle")) {
-                    int distance = (int) ((Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)))) / 2);
-                    x3 = x1 + distance;
-                    Point center = new Point(x3, y1);
+                    int distance = (int) ((Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)))));
+                    x3 = x1 - distance / 2;
+                    x2 = x1 + distance / 2;
+                    Point center = new Point(x1, y1);
                     Point corner1 = new Point(x2, y2);
-                    Point corner2 = new Point(x1, y2);
+                    Point corner2 = new Point(x3, y2);
                     if (x2 < x1) {
-                        center.x = x1 - distance;
-                        corner1.x = x2;
-                        corner2.x = x1;
+                        corner1.x = x1 - distance / 2;
+                        corner2.x = x1 + distance / 2;
                     }
                     if (y2 < y1) {
                         center.y = y2;
@@ -440,13 +443,15 @@ public class Board extends JPanel
 		// TODO Auto-generated method stub
 		x_final = e.getX() - x_init;
 		y_final = e.getY() - y_init;
+        tooltip.nowhere = false;
         if (shapes.IsClicked(x_final, y_final))
             shapes.Moved(x_final, y_final);
         else if (color.IsClicked(x_final, y_final))
             color.Moved(x_final, y_final);
         else if (layers.IsClicked(x_final, y_final))
             layers.Moved(x_final, y_final);
-
+        else
+            tooltip.nowhere = true;
 	}
 
     public int getwidth() {

@@ -48,6 +48,7 @@ public class Pentagram extends Shape{
         R2 -= (stroke / 2);
 
         // Draw the shape
+
         pentagram();
         g.setColor(color);
         g.fillPolygon(x, y, 10);

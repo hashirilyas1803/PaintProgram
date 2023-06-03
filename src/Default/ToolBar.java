@@ -77,16 +77,20 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
     @Override
     public void click(int x, int y) {
+        String[] shapes = {"Right-Angled-Triangle", "Equilateral-Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram", "Free-Drawing"};
         for (int i = 0; i < buttons.size(); i++) {
-            if(buttons.get(i).IsClicked(x, y)) {
-                if (buttons.get(i) instanceof ToggleButton || buttons.get(i) instanceof ListButton) {
-                    buttons.get(i).click(x, y);
-                    if (buttons.get(i) instanceof ColorButton)
-                        selected = (ColorButton) buttons.get(i);
+            Button button = buttons.get(i);
+            if(button.IsClicked(x, y)) {
+                if (button instanceof ListButton)
+                    b.shape = shapes[i];
+                if (button instanceof ToggleButton || button instanceof ListButton) {
+                    button.click(x, y);
+                    if (button instanceof ColorButton)
+                        selected = (ColorButton) button;
                 }
             }
             else
-                buttons.get(i).Unclick(x, y);
+                button.Unclick(x, y);
         }
     }
 
@@ -109,34 +113,26 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
     @Override
     public boolean IsClicked(int x, int y) {
-        if (buttons.get(0) instanceof ListButton) {
-            String[] shapes = {"Right-Angled-Triangle", "Equilateral-Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram"};
-            for (int i = 0; i < buttons.size(); i++) {
-                if (buttons.get(i).IsClicked(x, y)) {
-                    b.shape = shapes[i];
-                    return true;
-                }
+        for (Button button : buttons) {
+            if (button.IsClicked(x, y)) {
+                return true;
             }
-            return false;
         }
-        else {
-            for (Button button : buttons) {
-                if (button.IsClicked(x, y)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        return false;
     }
 
     public void addShapes(int x, int y, int size) {
         this.type = "Shape";
-        buttons.add(new ListButton(x, y, size, size, new ImageIcon("src/resources/right_triangle_button.png").getImage(), new ImageIcon("src/resources/right_triangle_button_pressed.png").getImage()));
-        buttons.add(new ListButton(x + b.getHEIGHT(), y, size, size, new ImageIcon("src/resources/equilateral_triangle_button.png").getImage(), new ImageIcon("src/resources/equilateral_triangle_button_pressed.png").getImage()));
-        buttons.add(new ListButton(x + (b.getHEIGHT() * 2), y, size, size, new ImageIcon("src/resources/rectangle_button.png").getImage(), new ImageIcon("src/resources/rectangle_button_pressed.png").getImage()));
-        buttons.add(new ListButton(x, y + b.getHEIGHT(), size, size, new ImageIcon("src/resources/circle_button.png").getImage(), new ImageIcon("src/resources/circle_button_pressed.png").getImage()));
-        buttons.add(new ListButton(x + b.getHEIGHT(), y + b.getHEIGHT(), size, size, new ImageIcon("src/resources/hexagon_button.png").getImage(), new ImageIcon("src/resources/hexagon_button_pressed.png").getImage()));
-        buttons.add(new ListButton(x + (b.getHEIGHT() * 2), y + b.getHEIGHT(), size, size, new ImageIcon("src/resources/pentagram_button.png").getImage(), new ImageIcon("src/resources/pentagram_button_pressed.png").getImage()));
+        Image[] depressed = {new ImageIcon("src/resources/right_angle.png").getImage(), new ImageIcon("src/resources/eq2.png").getImage(), new ImageIcon("src/resources/rectangle.png").getImage(), new ImageIcon("src/resources/circle.png").getImage(), new ImageIcon("src/resources/hexagon.png").getImage(), new ImageIcon("src/resources/pentagram.png").getImage()};
+        Image[] pressed = {new ImageIcon("src/resources/right_angle_pressed.png").getImage(), new ImageIcon("src/resources/eq2_pressed.png").getImage(), new ImageIcon("src/resources/rectangle_pressed.png").getImage(), new ImageIcon("src/resources/circle_pressed.png").getImage(), new ImageIcon("src/resources/hexagon_pressed.png").getImage(), new ImageIcon("src/resources/pentagram_pressed.png").getImage()};
+
+        // Iteratively assign a grid of shape buttons
+        int j = 3;
+        for (int i = 0; i < 6; i++)
+            buttons.add(new ListButton(x + ((i % j) * size), y + ((i / j) * size), size, size,depressed[i], pressed[i]));
+
+        // Add a button for free-drawing
+        buttons.add(new ListButton(x + (3 * size), y, size * 2, size * 2, new ImageIcon("src/resources/freedraw.png").getImage(), new ImageIcon("src/resources/freedraw_pressed.png").getImage()));
     }
 
     public void addPaletteButtons(int x, int y, int size, int num) {
@@ -190,11 +186,11 @@ public class ToolBar extends RectangleTemplate implements Interactibility, DrawB
 
         }
         else if (type.equals("Shape")) {
-            String[] shapes = {"Right-Angled-Triangle", "Equilateral-Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram"};
+            String[] shape = {"Right-Angled-Triangle", "Equilateral-Triangle", "Rectangle", "Circle", "Hexagon", "Pentagram", "Free-Drawing"};
             for (int i = 0; i < buttons.size(); i++) {
                 Button button = buttons.get(i);
                 if (button.IsClicked(x, y) ){
-                    info = shapes[i];
+                    info = shape[i];
                 }
             }
         }
